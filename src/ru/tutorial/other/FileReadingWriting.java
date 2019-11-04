@@ -1,6 +1,8 @@
 package ru.tutorial.other;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Scanner;
 
 public class FileReadingWriting {
@@ -63,10 +65,22 @@ public class FileReadingWriting {
         int i = 0;
         while ((i = fis.read()) >= 0) {//читает -1 или число от 0 до 255, (но byte от -128 .. 127)
             byte b = (byte)(i & 0xFF);//конвертируем файл в байт
-            String s = "";
+            String s = "";// генерируем двоичную запись байта
             for (int j = 7; j >= 0; j--) s += (b >>> j) & 1;
             System.out.println(s);
         }
         fis.close();
+    }
+
+    //Прочее
+    static void other() throws Exception {
+        //чтение запись массива байт в файл
+        byte [] data = Files.readAllBytes(new File("tmp/FileReading.txt").toPath());
+        try (FileOutputStream stream = new FileOutputStream(new File("tmp/FileReading.txt"))) {
+            stream.write(data);
+        }
+
+        //Прочитать все строки из файла
+        List<String> lines = Files.readAllLines(new File("tmp/FileReading.txt").toPath());
     }
 }
