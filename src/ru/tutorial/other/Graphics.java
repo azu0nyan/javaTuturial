@@ -10,9 +10,9 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 
 /**
- Класс - окно выводящаеся на экран благодаря extends JFrame
- И обрабатывающее нажатия клавиш благодаря implements KeyListener
- Название класса должно совпадать с именем файла(как и всегда)
+ * Класс - окно выводящаеся на экран благодаря extends JFrame
+ * И обрабатывающее нажатия клавиш благодаря implements KeyListener
+ * Название класса должно совпадать с именем файла(как и всегда)
  */
 public class Graphics extends JFrame implements KeyListener {
     //Тут храним всякие данные
@@ -27,7 +27,8 @@ public class Graphics extends JFrame implements KeyListener {
     /**
      * Все что должно рисоваться в вашей программе рисуется тут
      * Функция рисует один кадр,вызывается в бесконечном цикле, не чаще 60 раз в секунду.
-     * Тут не должно быть никаких длительных операций, огромных циклов, ожидания, чтения пользовательского ввода*/
+     * Тут не должно быть никаких длительных операций, огромных циклов, ожидания, чтения пользовательского ввода
+     */
     public static void draw(Graphics2D g) {
 
         g.setColor(new Color(162, 92, 67));//задаем цвет через RGB
@@ -48,23 +49,40 @@ public class Graphics extends JFrame implements KeyListener {
         g.drawOval(x - 5, y - 5, 10, 10);
 
         g.setColor(Color.GREEN);
-        //Передвигаем зеленый шарик
-        x1 = x1 + x1Speed;
-        if (x1 > w) {
+        //если в этот кадр мы вылетим за край экрана летим в другую сторону
+        if (x1 + x1Speed > w) {
             x1Speed = -10;
-        } else if (x1 < 0) {
+        } else if (x1 + x1Speed < 0) {
             x1Speed = 10;
         }
+        //Передвигаем зеленый шарик
+        x1 = x1 + x1Speed;
         g.drawOval(x1 - 5, y1 - 5, 10, 10);
     }
 
+    //Функция вызывается при нажатии клавиши один раз, и при удерживании несколько раз в секунду
     public void keyPressed(KeyEvent e) {
+        //Вариант 1 (управляем красным шариком)
+        //Если клавиша "W" нажата летим красным шариком вверх
         if (e.getKeyCode() == KeyEvent.VK_W) {
             y = y - 50;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
+        } else if (e.getKeyCode() == KeyEvent.VK_S) {
             y = y + 50;
         }
+        //Вариант 2(управляем зеленым шариком), удобен для назначения нескольких клавиш на одно действие
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_NUMPAD8:
+            case KeyEvent.VK_I:
+            case KeyEvent.VK_UP:
+                y1 -= 25;
+                break;
+            case KeyEvent.VK_NUMPAD2:
+            case KeyEvent.VK_O:
+            case KeyEvent.VK_DOWN:
+                y1 += 25;
+                break;
+        }
+
     }
 
     static final int w = 1920;
@@ -104,6 +122,7 @@ public class Graphics extends JFrame implements KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
+    //Вызывается когда клавиша отпущена пользователем, обработка события аналогична keyPressed
     public void keyReleased(KeyEvent e) {
 
     }
