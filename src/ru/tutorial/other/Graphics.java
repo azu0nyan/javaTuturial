@@ -30,23 +30,25 @@ public class Graphics extends JFrame implements KeyListener {
      * Тут не должно быть никаких длительных операций, огромных циклов, ожидания, чтения пользовательского ввода*/
     public static void draw(Graphics2D g) {
 
-        g.setColor(new Color(162, 92, 67));
-        g.setFont(new Font("Calibri", Font.BOLD, 25));
-        g.drawString("TEXT", 100, 100);//пишем текст
+        g.setColor(new Color(162, 92, 67));//задаем цвет через RGB
+        g.setFont(new Font("Calibri", Font.BOLD, 25));//Задаем шрифт, его свойства и размер
+        g.drawString("TEXT", 100, 100);//пишем текст в точке 100 100
 
 
-        g.setStroke(new BasicStroke(4));//ширина линии
+        g.setStroke(new BasicStroke(4));//задаем ширину линии которой все ресуется
         //верхний левый угол, ширина, высота
-        g.drawRect(100, 100, 300, 500);
-        g.setColor(Color.RED);
-        g.fillOval(100, 100, 300, 500);
+        g.drawRect(100, 100, 300, 500);//Рисуем прямоугольник
+        g.setColor(Color.RED);//Задаем цвет из списка цветов
+        g.fillOval(100, 100, 300, 500);//Рисуем закрашенный элипс
 
-        g.drawLine(400, 600, 500, 100);
+        g.drawLine(400, 600, 500, 100);//Рисуем линию
 
-        /////
+        /*Рисуем круг 10х10 с центром в точке x, y
+        Т.к. круг вписывается в квадрат размера 10х10 с левым верхним уголом в точке x - 5, y - 5*/
         g.drawOval(x - 5, y - 5, 10, 10);
 
         g.setColor(Color.GREEN);
+        //Передвигаем зеленый шарик
         x1 = x1 + x1Speed;
         if (x1 > w) {
             x1Speed = -10;
