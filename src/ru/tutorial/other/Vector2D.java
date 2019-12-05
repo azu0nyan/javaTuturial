@@ -9,7 +9,7 @@ public class Vector2D {
 
 
     private static double rotationDirection = 1;
-    public double x, y = 0;
+    public final double x, y;
 
     public Vector2D(double x, double y) {
         this.x = x;
