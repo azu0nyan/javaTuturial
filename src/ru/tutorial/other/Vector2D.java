@@ -8,7 +8,6 @@ public class Vector2D {
     public static Vector2D infVector = new Vector2D(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
 
 
-    private static double rotationDirection = 1;
     public final double x, y;
 
     public Vector2D(double x, double y) {
@@ -143,7 +142,6 @@ public class Vector2D {
      * @return вектор повернутый на угол а
      */
     public Vector2D rotate(double a) {
-        a *= rotationDirection;
         return new Vector2D((double) (x * Math.cos(a) + y * Math.sin(a)), (double) (x * -Math.sin(a) + y * Math.cos(a)));
     }
 
@@ -259,14 +257,6 @@ public class Vector2D {
      */
     public int getYInt() {
         return (int) y;
-    }
-
-    protected static double getRotationDirection() {
-        return rotationDirection;
-    }
-
-    protected static void setRotationDirection(double rotationDirection) {
-        Vector2D.rotationDirection = rotationDirection;
     }
 
     public double distance(Vector2D v) {
