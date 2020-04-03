@@ -3,6 +3,7 @@ package ru.tutorial;
 import java.util.ArrayList;
 
 interface  HasWeight{
+
     double getWeight();
 }
 
