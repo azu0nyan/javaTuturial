@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="javaTuturial:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/javaTuturial_jar</output-path>
+    <root id="archive" name="javaTuturial.jar">
+      <element id="module-output" name="javaTuturial" />
+    </root>
+  </artifact>
+</component>
