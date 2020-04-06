@@ -56,6 +56,7 @@ public class DrawingGrids extends JFrame implements KeyListener {
 
 
     public static void draw(Graphics2D g) {
+
         //чтобы нарисовать сетку нужно перебрать все её клетки
         for (int i = 0; i < cellsX; i++) {
             for (int j = 0; j < cellsY; j++) {

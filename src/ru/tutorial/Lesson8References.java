@@ -60,12 +60,24 @@ public class Lesson8References {
         System.out.println(a2.b);
         System.out.println(a3.b);
 
+
         a1 = an;
         if(a1 == null){
             System.out.println("a1 == null");
         } else {
             System.out.println("a1 != null");
         }
+
+        // ==
+        a1 = new A();
+        a1.b = 1;
+        a2 = new A();
+        a2.b = 1;
+        a3 = a1;
+
+        System.out.println(a1 == a2);
+        System.out.println(a1 == a3);
+        System.out.println(a2 == a3);
 
     }
 }
