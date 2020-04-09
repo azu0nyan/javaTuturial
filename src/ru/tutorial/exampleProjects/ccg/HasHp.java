@@ -5,4 +5,6 @@ public interface HasHp {
     int getHp();
 
     void modifyHp(int dHP);
+
+    boolean isAlive();
 }

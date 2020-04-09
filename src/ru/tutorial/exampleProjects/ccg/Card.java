@@ -1,6 +1,7 @@
 package ru.tutorial.exampleProjects.ccg;
 
 public class Card implements HasHp {
+
     public Card(int hp, int attack, int mana) {
         this.attack = attack;
         this.mana = mana;
@@ -43,5 +44,26 @@ public class Card implements HasHp {
 
     public void modifyHp(int dHP) {
         hp += dHP;
+    }
+
+    @Override
+    public boolean isAlive() {
+        return getHp() > 0;
+    }
+
+    public void onPlacedOnTable() {
+
+    }
+
+    public void onDeath(){
+
+    }
+
+    public void onTurnStart(){
+
+    }
+
+    public void onTurnEnd(){
+
     }
 }

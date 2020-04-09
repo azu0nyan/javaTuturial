@@ -11,6 +11,16 @@ public class Game {
     static  Scanner s = new Scanner(System.in);
 
     static void nextTurn() {
+        for (int i = 0; i < p1.table.length; i++) {
+            if(p1.table[i] != null && !p1.table[i].isAlive()){
+                p1.die(p1.table[i]);
+            }
+        }
+        for (int i = 0; i < p2.table.length; i++) {
+            if(p2.table[i] != null && !p2.table[i].isAlive()){
+                p2.die(p2.table[i]);
+            }
+        }
         current = p1 == current ? p2 : p1;
         turn++;
     }
