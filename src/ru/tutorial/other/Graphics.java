@@ -35,7 +35,6 @@ public class Graphics extends JFrame implements KeyListener {
         g.setFont(new Font("Calibri", Font.BOLD, 25));//Задаем шрифт, его свойства и размер
         g.drawString("TEXT", 100, 100);//пишем текст в точке 100 100
 
-
         g.setStroke(new BasicStroke(4));//задаем ширину линии которой все ресуется
         //верхний левый угол, ширина, высота
         g.drawRect(100, 100, 300, 500);//Рисуем прямоугольник

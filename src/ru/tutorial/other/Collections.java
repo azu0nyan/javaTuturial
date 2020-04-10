@@ -17,5 +17,13 @@ public class Collections {
         al.contains("a4");
         al.get(1);
         al.set(1,"a6");
+
+        for (String s : al) {
+            System.out.println(s);
+        }
+
+        for (int i = 0; i < al.size(); i++) {
+            System.out.println( i + " " + al.get(i));
+        }
     }
 }
