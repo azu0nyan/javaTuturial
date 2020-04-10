@@ -9,6 +9,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class MouseIO extends JFrame implements MouseInputListener {
 
@@ -16,13 +18,23 @@ public class MouseIO extends JFrame implements MouseInputListener {
     static int mouseY = 0;
 
     public static void draw(Graphics2D g) {
-        g.drawString("sdsad", mouseX, mouseY);
+        g.drawString("Some floating text", mouseX, mouseY);
 
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         System.out.println(e);
+        if(e.getButton() == MouseEvent.BUTTON1) {
+            try {
+                Robot robot = new Robot();
+                Random random = new Random();
+                robot.mouseMove(random.nextInt(getWidth()), random.nextInt(getHeight()));
+            } catch (AWTException ex) {
+                ex.printStackTrace();
+            }
+        }
+
     }
 
     @Override
@@ -75,6 +87,15 @@ public class MouseIO extends JFrame implements MouseInputListener {
         jf.addMouseListener(jf);//!!!!!!добавляем слушатель к окну
         jf.addMouseMotionListener(jf);///////!!!!!!!!
 
+        //custom cursor
+        BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        java.awt.Graphics cursorGr = cursorImg.getGraphics();
+        cursorGr.setColor(new Color(23, 13, 214));
+        cursorGr.fillOval(0, 0, 16, 16);
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                cursorImg, new Point(0, 0), "custom cursor");
+        // Set cursor to the JFrame.
+        jf.getContentPane().setCursor(blankCursor);
 
 
         //в бесконечном цикле рисуем новый кадр
