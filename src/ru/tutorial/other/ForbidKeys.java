@@ -34,6 +34,15 @@ public class ForbidKeys extends JFrame implements KeyListener {
 
     //магический код позволяющий всему работать, лучше не трогать
     public static void main(String[] args) throws InterruptedException {
+        class ForbidD implements KeyFilter{
+            @Override
+            public boolean allow(KeyEvent e) {
+                return e.getKeyCode() != KeyEvent.VK_D;
+            }
+        }
+        KeyFilter forbidD = new ForbidD();
+        filters.add(forbidD);
+
         KeyFilter forbidA = new KeyFilter() {
             public boolean allow(KeyEvent e) {
                 return e.getKeyCode() != KeyEvent.VK_A;
