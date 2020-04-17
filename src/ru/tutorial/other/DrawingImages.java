@@ -16,12 +16,10 @@ public class DrawingImages extends JFrame {
     static BufferedImage img;
     static {
         try {
-//            img = ImageIO.read(new File("C:\\someFolder\\img.jpg"));
-//            img = ImageIO.read(new File("img.jpg"));
-            img = ImageIO.read(new URL("https://www.purina.com/sites/g/files/auxxlc196/files/styles/facebook_share/public/how-much-wet-food-should-i-feed-my-cat_500x300.jpg"));
-
-
-
+//          img = ImageIO.read(new File("C:\\someFolder\\img.jpg"));
+//          img = ImageIO.read(new File("img.jpg"));
+            img = ImageIO.read(new URL(
+                    "https://www.purina.com/sites/g/files/auxxlc196/files/styles/facebook_share/public/how-much-wet-food-should-i-feed-my-cat_500x300.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }

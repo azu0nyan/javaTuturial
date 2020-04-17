@@ -12,7 +12,7 @@ public class SynchronousServer {
         System.out.println("Server started waiting to connection...");
 
         Socket p1Socket = serverSocket.accept();
-        System.out.println("p1 connected");
+        System.out.println("player 1 connected");
         Scanner fromP1 = new Scanner(p1Socket.getInputStream());
         PrintWriter toP1 = new PrintWriter(p1Socket.getOutputStream(), true);
         toP1.println("welcome player 1 enter your name:");//greet
