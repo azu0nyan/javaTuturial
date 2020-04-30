@@ -1,9 +1,16 @@
 package ru.tutorial.exampleProjects.ccg;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
+import static ru.tutorial.exampleProjects.ccg.Game.*;
 public class Player implements HasHp {
+
+    PrintWriter toMe;
+    Scanner fromMe;
+
 
     ArrayList<Card> deck = new ArrayList<>();
     ArrayList<Card> hand = new ArrayList<>();
@@ -17,9 +24,11 @@ public class Player implements HasHp {
     ArrayList<Object> forbidCardDrawSources = new ArrayList<>();
 
 
-    public Player(String name, ArrayList<Card> deck) {
+    public Player(String name, ArrayList<Card> deck, Scanner fromMe, PrintWriter toMe) {
         this.deck = deck;
         this.name = name;
+        this.fromMe = fromMe;
+        this.toMe = toMe;
     }
 
     void  die(Card c){
@@ -30,8 +39,12 @@ public class Player implements HasHp {
     }
 
     void printStatus() {
-        System.out.println("Player: " + name + " mana: " + getMana() + " hp" + getHp());
-        System.out.println("hand" + hand);
+        String msg =  "Player: " + name + " mana: " + getMana() + " hp" + getHp();
+        toMe.println(msgPrefix +msg);
+        System.out.println(msg);
+        String msg2 =  "hand" + hand;
+        System.out.println(msg2);
+        toMe.println(msgPrefix +msg2);
         System.out.println(Arrays.toString(table));
     }
 
@@ -41,7 +54,10 @@ public class Player implements HasHp {
 
     public void modifyHp(int dHP) {
         hp += dHP;
-        System.out.println("Player " + name + " hp changed by " + dHP + " current hp " + hp);
+        String msg ="Player " + name + " hp changed by " + dHP + " current hp " + hp;
+        toMe.println( msgPrefix +  msg);
+        System.out.println(msg);
+        getOther(this).toMe.println(msg);
     }
 
     public void modifyMana(int dMana) {
@@ -65,7 +81,10 @@ public class Player implements HasHp {
     boolean playCard(int handId, int tableId) {
         if (hand.size() > handId && hand.get(handId).getMana() >= getMana() && table[tableId] == null) {
             modifyMana(-hand.get(handId).getMana());
-            System.out.println("Player " + name + " playing card " + hand.get(handId));
+            String msg = ("Player " + name + " playing card " + hand.get(handId));
+            toMe.println(msgPrefix + msg);
+            System.out.println(msg);
+            getOther(this).toMe.println(msg);
             Card card = hand.remove(handId);
             playCard(card, tableId);
             System.out.println(Arrays.toString(table));
