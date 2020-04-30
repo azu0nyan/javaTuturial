@@ -1,7 +1,9 @@
 package ru.tutorial.exampleProjects.checkers;
 
+import java.io.PrintWriter;
 import java.util.Objects;
-
+import java.util.Scanner;
+import static ru.tutorial.exampleProjects.checkers.Game.*;
 public class Turn {
 
     int fromX;
@@ -20,10 +22,10 @@ public class Turn {
         this.toY = toY;
     }
 
-    static Turn readFromConsole() {
-        System.out.println("Enter `from to` ex `2e 3b`");
-        String from = Game.scan.next();
-        String to = Game.scan.next();
+    static Turn readFromConsole(Scanner f, PrintWriter t) {
+        t.println(askPrefix() +  "Enter `from to` ex `2e 3b`");
+        String from = f.next();
+        String to = f.next();
         return new Turn(from.charAt(0) - '0' -1, from.charAt(1) - 'a',
                 to.charAt(0) - '0' -1, to.charAt(1) - 'a');
     }

@@ -24,6 +24,7 @@ public class SynchronousServer {
         toP2.println("welcome player 2 enter your name:");//greet
 
 
+
         String p1Name = fromP1.nextLine(); //ask name
         String p2Name = fromP2.nextLine(); //ask name
 
@@ -41,4 +42,9 @@ public class SynchronousServer {
         toP2.println("p1's favourite " + p1Food);//show others food
 
     }
+
+
+    //
+    //
+    //
 }

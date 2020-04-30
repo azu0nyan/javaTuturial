@@ -1,5 +1,9 @@
 package ru.tutorial.exampleProjects.checkers;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,26 +14,84 @@ public class Game {
 
     static boolean currentPlayer;
     static boolean winner;
+    static boolean multilayer = false;
 
-    static Scanner scan = new Scanner(System.in);
+    static String askPrefix() {
+        return multilayer ? "a" : "";
+    }
 
-    public static void main(String[] args) {
+    static String msgPrefix() {
+        return multilayer ? "m" : "";
+    }
+
+    static Scanner fromConsole = new Scanner(System.in);
+    static Scanner fromP1 = fromConsole;
+    static Scanner fromP2 = fromConsole;
+
+    static Scanner fromCurrent() {
+        return currentPlayer ? fromP1 : fromP2;
+    }
+
+
+    static PrintWriter toConsole = new PrintWriter(System.out, true);
+    static PrintWriter toP1 = new PrintWriter(new DummyWriter(), true);
+    static PrintWriter toP2 = new PrintWriter(new DummyWriter(), true);
+
+    static PrintWriter toCurrent() {
+        return currentPlayer ? toP1 : toP2;
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        System.out.println("Enter game mode (H)ot seat, (M)ultiplayer");
+        String gameMode = fromConsole.nextLine();
+        if (gameMode.equalsIgnoreCase("H")) {
+            System.out.println("Hot seat mode selected");
+        } else {
+            System.out.println("Multiplayer mode selected");
+            multilayer = true;
+            ServerSocket serverSocket = new ServerSocket(1337);
+            System.out.println("Server started waiting to connection...");
+
+            Socket p1Socket = serverSocket.accept();
+            System.out.println("player 1 connected");
+            fromP1 = new Scanner(p1Socket.getInputStream());
+            toP1 = new PrintWriter(p1Socket.getOutputStream(), true);
+            toP1.println(msgPrefix() + "welcome player 1 your color is WHITE");//greet
+
+            Socket p2Socket = serverSocket.accept();
+            System.out.println("player 2 connected");
+            fromP2 = new Scanner(p2Socket.getInputStream());
+            toP2 = new PrintWriter(p2Socket.getOutputStream(), true);
+            toP2.println(msgPrefix() + "welcome player 2 enter your color is BLACK:");//greet
+        }
+        startGame();
+    }
+
+
+    private static void startGame() {
         gameSetup();
         currentPlayer = true;
         while (gameOver() == null) {
             printField();
-            System.out.println("Current player : " + (currentPlayer?"White":"Black"));
+            toConsole.println("Current player : " + (currentPlayer ? "White" : "Black"));
+            toP1.println(msgPrefix() + "Current player : " + (currentPlayer ? "White" : "Black"));
+            toP2.println(msgPrefix() + "Current player : " + (currentPlayer ? "White" : "Black"));
             readAndMove();
             currentPlayer = !currentPlayer;
         }
+        toConsole.println("end");
+        toP1.println(msgPrefix() + "end");
+        toP2.println(msgPrefix() + "end");
     }
 
     private static void readAndMove() {
         boolean success = false;
         while (!success) {
             ArrayList<Turn> turns = validTurns();
-            System.out.println(turns);
-            Turn t = Turn.readFromConsole();
+            toConsole.println(turns);
+            toCurrent().println(msgPrefix() + turns);
+            Turn t = Turn.readFromConsole(fromCurrent(), toCurrent());
             if (turns.contains(t)) {
                 makeMove(t);
                 success = true;
@@ -41,20 +103,21 @@ public class Game {
     static void makeMove(Turn t) {
         field[t.toX][t.toY] = field[t.fromX][t.fromY];
         field[t.fromX][t.fromY] = null;
-        if(currentPlayer && t.toX == side -1)field[t.toX][t.toY].isDame = true;
-        if(!currentPlayer && t.toX == 0)field[t.toX][t.toY].isDame = true;
-        if(t.len() == 2){
+        if (currentPlayer && t.toX == side - 1) field[t.toX][t.toY].isDame = true;
+        if (!currentPlayer && t.toX == 0) field[t.toX][t.toY].isDame = true;
+        if (t.len() == 2) {
             int eatenX = (t.fromX + t.toX) / 2;
             int eatenY = (t.fromY + t.toY) / 2;
             field[eatenX][eatenY] = null;
             ArrayList<Turn> turns = eatingTurnsFrom(t.toX, t.toY);
-            if(!turns.isEmpty()) {
+            if (!turns.isEmpty()) {
                 printField();
-                System.out.println("You sould eat again " + turns);
+                toConsole.println("You sould eat again " + turns);
+                toCurrent().println(msgPrefix() + "You sould eat again " + turns);
                 boolean success = false;
-                while (!success){
-                    Turn newT = Turn.readFromConsole();
-                    if(turns.contains(newT)){
+                while (!success) {
+                    Turn newT = Turn.readFromConsole(fromCurrent(), toCurrent());
+                    if (turns.contains(newT)) {
                         makeMove(newT);
                         success = true;
                     }
@@ -131,35 +194,40 @@ public class Game {
     }
 
     static void printField() {
-        System.out.printf("   |");
+        String res = "";
+        res += "   |";
         for (int i = 0; i < side; i++) {
-            System.out.print((char) ('a' + i) + "|");
+            res += ((char) ('a' + i) + "|");
         }
-        System.out.println();
+        res += "\n";
         for (int i = 0; i < side; i++) {
-            System.out.printf("%2d ", i + 1);
-            System.out.printf("|");
+            res += String.format("%2d ", i + 1);
+            res += ("|");
             for (int j = 0; j < side; j++) {
                 if (field[i][j] != null) {
                     if (!field[i][j].color) {
-                        if (field[i][j].isDame) System.out.print("⚉");
-                        else System.out.print("●");
+                        res += field[i][j].isDame ? "⚉" : "●";
                     } else {
-                        if (field[i][j].isDame) System.out.print("⚇");
-                        else System.out.printf("○");
+                        res += field[i][j].isDame ? "⚇" : "○";
                     }
                 } else {
-                    if ((i + j) % 2 == 0) {
-                        System.out.print("■");
-                    } else {
-                        System.out.print(" ");
-                    }
+                    res += ((i + j) % 2 == 0) ? "■" : " ";
                 }
-                System.out.printf("|");
+
+                res += "|";
             }
-            System.out.println();
+            res += "\n";
         }
+        if(multilayer){
+            String [] toSend = res.split("\n");
+            for (String s : toSend) {
+                toP1.println(msgPrefix() + s);
+                toP2.println(msgPrefix() + s);
+            }
+        }
+        toConsole.println(res);
     }
+
 
     static void gameSetup() {
         for (int i = 0; i <= 2; i++) {
