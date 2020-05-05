@@ -3,7 +3,7 @@ package ru.tutorial.exampleProjects.checkers;
 import java.io.PrintWriter;
 import java.util.Objects;
 import java.util.Scanner;
-import static ru.tutorial.exampleProjects.checkers.Game.*;
+import static ru.tutorial.exampleProjects.checkers.CheckersGame.*;
 public class Turn {
 
     int fromX;

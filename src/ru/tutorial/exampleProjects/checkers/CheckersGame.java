@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game {
+public class CheckersGame {
 
     static final int side = 8;
     static Pawn field[][] = new Pawn[side][side];
@@ -22,6 +22,10 @@ public class Game {
 
     static String msgPrefix() {
         return multilayer ? "m" : "";
+    }
+
+    static String boardPrefix() {
+        return multilayer ? "b" : "";
     }
 
     static Scanner fromConsole = new Scanner(System.in);
@@ -218,12 +222,10 @@ public class Game {
             }
             res += "\n";
         }
-        if(multilayer){
-            String [] toSend = res.split("\n");
-            for (String s : toSend) {
-                toP1.println(msgPrefix() + s);
-                toP2.println(msgPrefix() + s);
-            }
+        if (multilayer) {
+            String board = boardPrefix() + res.replaceAll("\n", "");
+            toP1.println(board);
+            toP2.println(board);
         }
         toConsole.println(res);
     }
