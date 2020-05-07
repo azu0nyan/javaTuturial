@@ -8,13 +8,15 @@ import java.util.Scanner;
 import static ru.tutorial.exampleProjects.ccg.Game.*;
 public class Player implements HasHp {
 
+
+    public static final int tableSize = 6;
     PrintWriter toMe;
     Scanner fromMe;
 
 
     ArrayList<Card> deck = new ArrayList<>();
     ArrayList<Card> hand = new ArrayList<>();
-    Card[] table = new Card[6];
+    Card[] table = new Card[tableSize];
 
 
     String name;
