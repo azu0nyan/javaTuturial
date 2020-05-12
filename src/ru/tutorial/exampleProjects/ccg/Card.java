@@ -6,7 +6,10 @@ public class Card implements HasHp {
         this.attack = attack;
         this.mana = mana;
         this.hp = hp;
+        descr = "Some card with " + attack + " attack" + " and " + mana +" mana.";
     }
+
+    String descr;
 
     private int attack;
     private int mana;

@@ -11,8 +11,6 @@ import java.util.Scanner;
 public class Game {
 
 
-    static final String msgPrefix = "m";
-    static final String actPrefix = "a";
     static Player p1;
     static Player p2;
     static Player current;
@@ -45,17 +43,23 @@ public class Game {
 
         Socket p1Socket = serverSocket.accept();
         System.out.println("player 1 connected");
-        Scanner fromP1 = new Scanner(p1Socket.getInputStream());
-        PrintWriter toP1 = new PrintWriter(p1Socket.getOutputStream(), true);
+        fromP1 = new Scanner(p1Socket.getInputStream());
+        toP1 = new PrintWriter(p1Socket.getOutputStream(), true);
 
         Socket p2Socket = serverSocket.accept();
         System.out.println("player 2 connected");
-        Scanner fromP2 = new Scanner(p2Socket.getInputStream());
-        PrintWriter toP2 = new PrintWriter(p2Socket.getOutputStream(), true);
-        startGame(fromP1, toP1, fromP2, toP2);
+        fromP2 = new Scanner(p2Socket.getInputStream());
+        toP2 = new PrintWriter(p2Socket.getOutputStream(), true);
+        startGame();
     }
+    static Scanner fromP1;
+    static PrintWriter toP1;
+    static Scanner fromP2;
+    static PrintWriter toP2;
 
-    public static void startGame(Scanner fromP1, PrintWriter toP1, Scanner fromP2, PrintWriter toP2) {
+
+
+    public static void startGame() {
         ArrayList<Card> deck1 = new ArrayList<>();
         deck1.add(new BlockingCard(10, 4, 2));
         deck1.add(new ChepingManaCard(10, 4, 8));
@@ -76,8 +80,9 @@ public class Game {
         while (p1.isAlive() && p2.isAlive()) {
             String msg = "Player " + current.name + " turn start turn number " + turn;
             System.out.println(msg);
-            p1.toMe.println(msgPrefix + msg);
-            p2.toMe.println(msgPrefix + msg);
+//            p1.toMe.println(msgPrefix + msg);
+//            p2.toMe.println(msgPrefix + msg);
+            ClientMessagesSender.sendWorldUpdate();
 
             current.turnStart();
 
@@ -88,8 +93,8 @@ public class Game {
 
             nextTurn();
             System.out.println("TURN END");
-            p1.toMe.println(msgPrefix + "TURN END");
-            p2.toMe.println(msgPrefix + "TURN END");
+//            p1.toMe.println(msgPrefix + "TURN END");
+//            p2.toMe.println(msgPrefix + "TURN END");
         }
 
         System.out.println("END");
@@ -100,9 +105,10 @@ public class Game {
 
     public static void readAndProcessComannds() {
         System.out.println("Waiting player input....");
-        current.toMe.println(actPrefix + "Print `end` to end turn print `play handId tableId` to play card ");
+//        current.toMe.println(actPrefix + "Print `end` to end turn print `play handId tableId` to play card ");
+        current.toMe.println("act");
         String command[] = current.fromMe.nextLine().split(" {1,}");
-        System.out.println("Player imput: " + Arrays.toString(command));
+        System.out.println("Player input: " + Arrays.toString(command));
         if (command.length == 0) readAndProcessComannds();
         else switch (command[0]) {
             case "end":
@@ -116,10 +122,10 @@ public class Game {
                         int tableId = Integer.parseInt(command[2]);
                         current.playCard(handId, tableId);
                     } catch (Exception ignored) {
-                        current.toMe.println(msgPrefix + "wrong format");
+                        System.out.println( "wrong format");
                     }
                 } else {
-                    current.toMe.println(msgPrefix + "wrong number of arguments");
+                    System.out.println( "wrong number of arguments");
                 }
         }
         readAndProcessComannds();

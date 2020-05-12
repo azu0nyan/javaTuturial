@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import static ru.tutorial.exampleProjects.ccg.Game.*;
+
 public class Player implements HasHp {
 
 
@@ -33,21 +34,20 @@ public class Player implements HasHp {
         this.toMe = toMe;
     }
 
-    void  die(Card c){
+    void die(Card c) {
         for (int i = 0; i < table.length; i++) {
             c.onDeath();
-            if(table[i] == c ) table[i] = null;
+            if (table[i] == c) table[i] = null;
         }
     }
 
     void printStatus() {
-        String msg =  "Player: " + name + " mana: " + getMana() + " hp" + getHp();
-        toMe.println(msgPrefix +msg);
+        String msg = "Player: " + name + " mana: " + getMana() + " hp" + getHp();
         System.out.println(msg);
-        String msg2 =  "hand" + hand;
+        String msg2 = "hand" + hand;
         System.out.println(msg2);
-        toMe.println(msgPrefix +msg2);
         System.out.println(Arrays.toString(table));
+        ClientMessagesSender.sendWorldUpdate();
     }
 
     public int getHp() {
@@ -56,8 +56,8 @@ public class Player implements HasHp {
 
     public void modifyHp(int dHP) {
         hp += dHP;
-        String msg ="Player " + name + " hp changed by " + dHP + " current hp " + hp;
-        toMe.println( msgPrefix +  msg);
+        String msg = "Player " + name + " hp changed by " + dHP + " current hp " + hp;
+        ClientMessagesSender.sendWorldUpdate();
         System.out.println(msg);
         getOther(this).toMe.println(msg);
     }
@@ -81,21 +81,30 @@ public class Player implements HasHp {
     }
 
     boolean playCard(int handId, int tableId) {
-        if (hand.size() > handId && hand.get(handId).getMana() >= getMana() && table[tableId] == null) {
-            modifyMana(-hand.get(handId).getMana());
-            String msg = ("Player " + name + " playing card " + hand.get(handId));
-            toMe.println(msgPrefix + msg);
-            System.out.println(msg);
-            getOther(this).toMe.println(msg);
-            Card card = hand.remove(handId);
-            playCard(card, tableId);
-            System.out.println(Arrays.toString(table));
-            return true;
+        if (hand.size() <= handId) {
+            System.out.println("handId is to large :" + handId + " should be < " + hand.size());
+            return false;
         }
-        return false;
+        if (hand.get(handId).getMana() > getMana()) {
+            System.out.println("Not enough mana required: " + hand.get(handId).getMana() + " available: " + getMana());
+            return false;
+        }
+        if (table[tableId] != null) {
+            System.out.println("SlotId : " + tableId + " non empty");
+            return false;
+        }
+        modifyMana(-hand.get(handId).getMana());
+        String msg = ("Player " + name + " playing card " + hand.get(handId));
+        System.out.println(msg);
+        getOther(this).toMe.println(msg);
+        Card card = hand.remove(handId);
+        playCard(card, tableId);
+        System.out.println(Arrays.toString(table));
+        ClientMessagesSender.sendWorldUpdate();
+        return true;
     }
 
-    void playCard(Card card, int tableId){
+    void playCard(Card card, int tableId) {
         table[tableId] = card;
         card.onPlacedOnTable();
     }
@@ -104,14 +113,14 @@ public class Player implements HasHp {
         setMana(Game.turn + 1);
         drawCard();
         for (Card card : table) {
-            if(card !=null) card.onTurnStart();
+            if (card != null) card.onTurnStart();
         }
     }
 
     void turnEnd() {
         Player other = Game.getOther(this);
         for (Card card : table) {
-            if(card !=null) card.onTurnEnd();
+            if (card != null) card.onTurnEnd();
         }
         for (int i = 0; i < table.length; i++) {
             if (table[i] != null) {

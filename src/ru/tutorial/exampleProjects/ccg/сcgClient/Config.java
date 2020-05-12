@@ -39,6 +39,7 @@ public class Config {
     static final int enemyHpY = enemyHandY + cardH * 3 / 2;
 
     static final Color cardBG = new Color(85, 46, 27);
+    static final Color selectedCardBG = new Color(27, 35, 85);
     static final Color hpBG = new Color(159, 246, 96);
     static final Color atkBG = new Color(246, 96, 96);
     static final Color manaBG = new Color(162, 225, 255);

@@ -12,6 +12,7 @@ public class EnemyView {
     int deckCardCount;
     int hand ;
     int hp;
+    int mana;
     CardView [] table = new CardView [Player.tableSize];
 
     public EnemyView(String name, int deckCardCount, int hand) {
@@ -25,8 +26,9 @@ public class EnemyView {
         for (int i = 0; i < table.length; i++) {
             int cardX = tableX + i * (cardW + border);
             int cardY = tableY;
-            if (table[i] != null) {
-                table[i].drawMe(g, cardX, cardY);
+            CardView cur = table[i];
+            if (cur != null) {
+                cur.drawMe(g, cardX, cardY, false);
             } else {
                 CardView.drawEmptySlot(g, cardX, cardY);
             }
@@ -53,7 +55,7 @@ public class EnemyView {
 
         g.setFont(new Font("", Font.BOLD, cardW / 2));
         g.setColor(hpBG);
-        g.drawString(String.valueOf(hp), enemyHpX, enemyHpY);
+        g.drawString(hp + " " + mana, enemyHpX, enemyHpY);
 
     }
 }
