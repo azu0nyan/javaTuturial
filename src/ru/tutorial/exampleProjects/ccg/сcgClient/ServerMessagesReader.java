@@ -12,13 +12,12 @@ import static ru.tutorial.exampleProjects.ccg.сcgClient.CcgClient.*;
 public class ServerMessagesReader {
     static void read() {
         //playerHand N card1 card2 .. cardN
-        //enemyHand N
         //playerTable null|card card1 null|card card2 .. null|card card6
         //enemyTable null|card card1 null|card card2 .. null|card card6
         //player hp mana decksize
         //enemy hp mana deck hand
         //card
-        //n~a~m~e d~e~s~c~r hp mana atk
+        //n~a~m~e~d~e~s~c~r hp mana atk
         //act
         switch (fromServer.next()) {
             case "end":

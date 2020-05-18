@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import static ru.tutorial.exampleProjects.ccg.Game.*;
+import static ru.tutorial.exampleProjects.ccg.CcgGameServer.*;
 
 public class Player implements HasHp {
 
@@ -110,7 +110,7 @@ public class Player implements HasHp {
     }
 
     void turnStart() {
-        setMana(Game.turn + 1);
+        setMana(CcgGameServer.turn + 1);
         drawCard();
         for (Card card : table) {
             if (card != null) card.onTurnStart();
@@ -118,7 +118,7 @@ public class Player implements HasHp {
     }
 
     void turnEnd() {
-        Player other = Game.getOther(this);
+        Player other = CcgGameServer.getOther(this);
         for (Card card : table) {
             if (card != null) card.onTurnEnd();
         }

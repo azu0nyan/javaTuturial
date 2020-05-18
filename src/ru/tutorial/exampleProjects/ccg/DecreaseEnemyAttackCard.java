@@ -7,7 +7,7 @@ public class DecreaseEnemyAttackCard extends Card {
 
     @Override
     public void onPlacedOnTable() {
-        Card[] other = Game.getOther(Game.current).table;
+        Card[] other = CcgGameServer.getOther(CcgGameServer.current).table;
         for (Card card : other) {
             if (card != null) card.modifyAttack(-1);
         }

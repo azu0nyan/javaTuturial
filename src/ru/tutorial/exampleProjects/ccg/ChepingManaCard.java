@@ -7,6 +7,6 @@ public class ChepingManaCard extends Card {
 
     @Override
     public int getMana() {
-        return Math.max(super.getMana() - Game.turn, 0);
+        return Math.max(super.getMana() - CcgGameServer.turn, 0);
     }
 }

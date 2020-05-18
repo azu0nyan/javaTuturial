@@ -1,7 +1,5 @@
 package ru.tutorial.exampleProjects.checkers;
 
-import ru.tutorial.exampleProjects.ccg.Game;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -11,7 +9,6 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CheckersGraphicsClient extends JFrame implements KeyListener, MouseListener {

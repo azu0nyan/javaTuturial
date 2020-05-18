@@ -8,8 +8,8 @@ import java.io.PrintWriter;
 public class ClientMessagesSender {
 
     static void sendWorldUpdate(){
-        sendWorldUpdateToPlayer(Game.p1, Game.p2, Game.toP1);
-        sendWorldUpdateToPlayer(Game.p2, Game.p1, Game.toP2);
+        sendWorldUpdateToPlayer(CcgGameServer.p1, CcgGameServer.p2, CcgGameServer.toP1);
+        sendWorldUpdateToPlayer(CcgGameServer.p2, CcgGameServer.p1, CcgGameServer.toP2);
     }
 
     static void sendWorldUpdateToPlayer(Player p1, Player p2, PrintWriter toP1){

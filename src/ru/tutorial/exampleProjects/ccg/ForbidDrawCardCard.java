@@ -9,7 +9,7 @@ public class ForbidDrawCardCard extends Card {
     Player enemy;
     @Override
     public void onPlacedOnTable() {
-        enemy = Game.getOther(Game.current);
+        enemy = CcgGameServer.getOther(CcgGameServer.current);
         enemy.forbidCardDrawSources.add(this);
     }
 
