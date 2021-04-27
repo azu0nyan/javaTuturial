@@ -52,7 +52,6 @@ public class JFrameListDemo {
         jb1.addActionListener(e -> {
             String t = jtf.getText();
             l.add(t);
-
         });
 
         jtf.getDocument().addDocumentListener(new DocumentListener() {
