@@ -1,6 +1,7 @@
 package ru.tutorial.other;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Collections {
     public static void main(String[] args) {
@@ -25,5 +26,11 @@ public class Collections {
         for (int i = 0; i < al.size(); i++) {
             System.out.println( i + " " + al.get(i));
         }
+
+        var m = new HashMap<Integer, Integer>();
+        m.compute(123, (k,v) -> {
+            if(k == null) return 22;
+            else return k + 22;
+        });
     }
 }

@@ -1,6 +1,8 @@
 package ru.tutorial.other;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 public class ArrayStreams {
@@ -37,7 +39,6 @@ public class ArrayStreams {
                     }
                 }).reduce(0, (q, w) -> q + w);
         System.out.println(zz);
-
     }
 }
 
