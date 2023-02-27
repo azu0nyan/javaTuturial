@@ -1,16 +1,16 @@
 package ru.tutorial.other;
 
-public class Vector2D {
+public class V2 {
 
-    static final Vector2D zeroVector = new Vector2D(0, 0);
-    static final Vector2D xVector = new Vector2D(1, 0);
-    static final Vector2D yVector = new Vector2D(0, 1);
-    public static Vector2D infVector = new Vector2D(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
+    static final V2 zeroVector = new V2(0, 0);
+    static final V2 xVector = new V2(1, 0);
+    static final V2 yVector = new V2(0, 1);
+    public static V2 infVector = new V2(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
 
 
     public final double x, y;
 
-    public Vector2D(double x, double y) {
+    public V2(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -21,8 +21,8 @@ public class Vector2D {
      * @param v слагаемое
      * @return сумма вектора и аргумента
      */
-    public Vector2D add(Vector2D v) {
-        return new Vector2D(x + v.x, y + v.y);
+    public V2 add(V2 v) {
+        return new V2(x + v.x, y + v.y);
     }
 
     /**
@@ -30,7 +30,7 @@ public class Vector2D {
      * @param v2 слагаемое 2
      * @return покоординатная сумма v1  + v2
      */
-    public static Vector2D add(Vector2D v1, Vector2D v2) {
+    public static V2 add(V2 v1, V2 v2) {
         return v1.add(v2);
     }
 
@@ -40,8 +40,8 @@ public class Vector2D {
      * @param v множитель
      * @return произведение вектора и аргумента
      */
-    public Vector2D mull(Vector2D v) {
-        return new Vector2D(x * v.x, y * v.y);
+    public V2 mull(V2 v) {
+        return new V2(x * v.x, y * v.y);
     }
 
     /**
@@ -49,7 +49,7 @@ public class Vector2D {
      * @param v2 множитель 2
      * @return покоординатное произведение v1 * v2
      */
-    public static Vector2D mull(Vector2D v1, Vector2D v2) {
+    public static V2 mull(V2 v1, V2 v2) {
         return v1.mull(v2);
     }
 
@@ -59,8 +59,8 @@ public class Vector2D {
      * @param v вычитаемое
      * @return разность вектора и аргумента
      */
-    public Vector2D sub(Vector2D v) {
-        return new Vector2D(x - v.x, y - v.y);
+    public V2 sub(V2 v) {
+        return new V2(x - v.x, y - v.y);
     }
 
     /**
@@ -68,7 +68,7 @@ public class Vector2D {
      * @param v2 ввычитаемое
      * @return покоординатная разность v1 - v2
      */
-    public static Vector2D sub(Vector2D v1, Vector2D v2) {
+    public static V2 sub(V2 v1, V2 v2) {
         return v1.sub(v2);
     }
 
@@ -78,8 +78,8 @@ public class Vector2D {
      * @param v делитель
      * @return частное вектора и аргумента
      */
-    public Vector2D div(Vector2D v) {
-        return new Vector2D(v.x == 0 ? 0 : x / v.x, v.y == 0 ? 0 : y / v.y);
+    public V2 div(V2 v) {
+        return new V2(v.x == 0 ? 0 : x / v.x, v.y == 0 ? 0 : y / v.y);
     }
 
     /**
@@ -87,7 +87,7 @@ public class Vector2D {
      * @param v2 делитель
      * @return покоординатное частное v1 / v2
      */
-    public static Vector2D div(Vector2D v1, Vector2D v2) {
+    public static V2 div(V2 v1, V2 v2) {
         return v1.div(v2);
     }
 
@@ -105,8 +105,8 @@ public class Vector2D {
      * @param d масштаб
      * @return масштабированный вектор
      */
-    public Vector2D scale(double d) {
-        return new Vector2D(x * d, y * d);
+    public V2 scale(double d) {
+        return new V2(x * d, y * d);
     }
 
     /**
@@ -116,14 +116,14 @@ public class Vector2D {
      * @param d масштаб
      * @return масштабированный вектор
      */
-    public static Vector2D scale(Vector2D v, double d) {
+    public static V2 scale(V2 v, double d) {
         return v.scale(d);
     }
 
     /**
      * @return вектор направленный в противоположную сторону(развернутый на 180 градусов), такой же длинны
      */
-    public Vector2D opposite() {
+    public V2 opposite() {
         return scale(-1);
     }
 
@@ -131,7 +131,7 @@ public class Vector2D {
      * @param v ветор
      * @return вектор направленный в противоположную сторону(развернутый на 180 градусов), такой же длинны
      */
-    public static Vector2D opposite(Vector2D v) {
+    public static V2 opposite(V2 v) {
         return v.scale(-1);
     }
 
@@ -141,8 +141,8 @@ public class Vector2D {
      * @param a угол поворота
      * @return вектор повернутый на угол а
      */
-    public Vector2D rotate(double a) {
-        return new Vector2D((double) (x * Math.cos(a) + y * Math.sin(a)), (double) (x * -Math.sin(a) + y * Math.cos(a)));
+    public V2 rotate(double a) {
+        return new V2((double) (x * Math.cos(a) + y * Math.sin(a)), (double) (x * -Math.sin(a) + y * Math.cos(a)));
     }
 
     /**
@@ -152,8 +152,12 @@ public class Vector2D {
      * @param v вектор
      * @return вектор повернутый на угол а
      */
-    public static Vector2D rotate(Vector2D v, double a) {
+    public static V2 rotate(V2 v, double a) {
         return v.rotate(a);
+    }
+
+    public V2 rotate90() {
+        return new V2(-y, x);
     }
 
     /**
@@ -167,7 +171,7 @@ public class Vector2D {
      * @param v вектор
      * @return длинна вектора
      */
-    public static double length(Vector2D v) {
+    public static double length(V2 v) {
         return v.length();
     }
 
@@ -176,9 +180,9 @@ public class Vector2D {
      *
      * @return вектор длинны 1 смотрящий в том же направлении что и данный
      */
-    public Vector2D normalize() {
+    public V2 normalize() {
         if (length() == 0) {
-            return new Vector2D(0, 0);
+            return new V2(0, 0);
         }
         return scale(1 / length());
     }
@@ -189,7 +193,7 @@ public class Vector2D {
      * @param v вектор
      * @return вектор длинны 1 смотрящий в том же направлении что и данный
      */
-    public static Vector2D normalize(Vector2D v) {
+    public static V2 normalize(V2 v) {
         return v.normalize();
     }
 
@@ -199,7 +203,7 @@ public class Vector2D {
      * @param v множитель
      * @return скалярное произведенние вектора с аргументом функции
      */
-    public double scalarProduct(Vector2D v) {
+    public double scalarProduct(V2 v) {
         return x * v.x + y * v.y;
     }
 
@@ -210,7 +214,7 @@ public class Vector2D {
      * @param v2 множитель 2
      * @return скалярное произведение v1 и v2
      */
-    public static double scalarProduct(Vector2D v1, Vector2D v2) {
+    public static double scalarProduct(V2 v1, V2 v2) {
         return v1.scalarProduct(v2);
     }
 
@@ -218,7 +222,7 @@ public class Vector2D {
      * @param v
      * @return ориентированный угол между вектором и аргументом функции от -Пи до Пи
      */
-    public double angle(Vector2D v) {
+    public double angle(V2 v) {
         return (double) (Math.atan2(v.y, v.x) - Math.atan2(y, x));
     }
 
@@ -227,7 +231,7 @@ public class Vector2D {
      * @param v2 вектор 2
      * @return ориентированный угол между v1 и v2
      */
-    public static double angle(Vector2D v1, Vector2D v2) {
+    public static double angle(V2 v1, V2 v2) {
         return v1.angle(v2);
     }
 
@@ -259,11 +263,11 @@ public class Vector2D {
         return (int) y;
     }
 
-    public double distance(Vector2D v) {
+    public double distance(V2 v) {
         return distance(this, v);
     }
 
-    public static double distance(Vector2D v1, Vector2D v2) {
+    public static double distance(V2 v1, V2 v2) {
         return v1.sub(v2).length();
     }
 
